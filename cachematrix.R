@@ -10,15 +10,17 @@
 ## 4.  get the value of the inversion
 
 makeCacheMatrix <- function(x = matrix()) {
-	v <<-NULL
-	set <- function(y){
-		x <<- y
+	v <-NULL                                      ## initialize v                 
+	set <- function(y){                           ## assign values in parent environment
+		x <<- y                                                   
 		v <<- NULL
 	}
-	get <- function() x
-	setivs <- function(ivs) v <<- ivs
-	getivs <- function() v
-	list(set = set, get = get, setivs = setivs, getivs = getivs) 
+	get <- function() x                           ## get value of matrix x
+	setivs <- function(ivs) v <<- ivs             ## set the inversion
+	getivs <- function() v                        ## get the inversion
+	list(set = set, get = get,                   
+	     setivs = setivs, getivs = getivs
+	     ) 
 }
 
 
@@ -31,13 +33,12 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-	v <- x$getivs()
-	if(!is.null(v)){
-		message("getting cached data")
+	v <- x$getivs()                                 
+	if(!is.null(v)){                                ## if the inverse is solved before,
+		message("getting cached data")          ## then get result from cached data
 		return(v)
 	}
-	data <- x$get()
+	data <- x$get()                                 ## if not, solve the inversion
 	v <- solve(data, ...)
 	x$setivs(v)
 	v
